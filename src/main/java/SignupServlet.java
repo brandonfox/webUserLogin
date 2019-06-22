@@ -7,12 +7,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-public class LoginServlet extends HttpServlet {
+public class SignupServlet extends HttpServlet {
 
-    DataService data;
+    DataService dataService;
 
-    public LoginServlet(DataService dataService){
-        data = dataService;
+    public SignupServlet(DataService dataService){
+        this.dataService = dataService;
     }
 
     @Override
@@ -20,14 +20,12 @@ public class LoginServlet extends HttpServlet {
 
         req.setAttribute("errorMsg","");
 
-        RequestDispatcher rd = req.getRequestDispatcher("WEB-INF/login.jsp");
+        RequestDispatcher rd = req.getRequestDispatcher("WEB-INF/signup.jsp");
         rd.include(req,resp);
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String username = req.getParameter("username");
-        String password = req.getParameter("password");
-
+        super.doPost(req, resp);
     }
 }

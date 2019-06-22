@@ -1,8 +1,11 @@
 package Database;
 
+import org.apache.catalina.User;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Properties;
 
 public class DataService {
@@ -17,6 +20,10 @@ public class DataService {
         }
     }
 
+    public List<User> getAllUsers(){
+        //TODO Implement user retrieval
+        return null;
+    }
 
 
 }
