@@ -12,7 +12,8 @@ public class Main {
         File tempDir = new File("src/main/webapp/");
         tempDir.mkdirs();
         Tomcat tomcat = new Tomcat();
-        tomcat.setPort(8082);
+        tomcat.setPort(80);
+
 
         String connectionString = "jdbc:mysql://localhost/ooca4"; //Database connection ip/string
         Properties connProps = new Properties();
