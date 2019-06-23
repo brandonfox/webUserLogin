@@ -1,4 +1,4 @@
-package Database;
+package com.brandon.Database;
 
 import org.apache.catalina.User;
 

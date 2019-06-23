@@ -1,4 +1,6 @@
-import Database.DataService;
+package com.brandon;
+
+import com.brandon.Database.DataService;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
