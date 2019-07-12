@@ -1,6 +1,7 @@
-package com.brandon;
+package com.brandon.Servlets;
 
 import com.brandon.Database.DataService;
+import com.brandon.Database.UserService;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -11,9 +12,9 @@ import java.io.IOException;
 
 public class LoginServlet extends HttpServlet {
 
-    DataService data;
+    UserService data;
 
-    public LoginServlet(DataService dataService){
+    public LoginServlet(UserService dataService){
         data = dataService;
     }
 
@@ -30,8 +31,6 @@ public class LoginServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String username = req.getParameter("username");
         String password = req.getParameter("password");
-        if(!data.usernameTaken(username)){
-            data.addUser(username,password);
-        }
+
     }
 }

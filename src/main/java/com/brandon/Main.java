@@ -1,6 +1,9 @@
 package com.brandon;
 
-import com.brandon.Database.DataService;
+import com.brandon.Database.UserService;
+import com.brandon.Servlets.LoginServlet;
+import com.brandon.Servlets.SignupServlet;
+import com.brandon.Servlets.UserListServlet;
 import org.apache.catalina.Context;
 import org.apache.catalina.LifecycleException;
 import org.apache.catalina.startup.Tomcat;
@@ -17,12 +20,13 @@ public class Main {
         tomcat.setPort(80);
 
         System.out.println("Starting sql connection");
-        String connectionString = "jdbc:mysql://localhost/ooca4"; //Database connection ip/string
+        String databaseName = "ooc-a4";
+        String connectionString = "jdbc:mysql://localhost:3306/" + databaseName; //Database connection ip/string
         Properties connProps = new Properties();
-        connProps.put("user","ooc");
-        connProps.put("password","dbooc");
+        connProps.put("user","root");
+        connProps.put("password","password");
 
-        DataService dataService = new DataService(connectionString,connProps);
+        UserService dataService = new UserService(connectionString,connProps);
 
         Context ctx;
         try{
@@ -33,12 +37,12 @@ public class Main {
             SignupServlet signup = new SignupServlet(dataService);
             UserListServlet users = new UserListServlet(dataService);
 
-            Tomcat.addServlet(ctx,"com.brandon.LoginServlet",login);
-            Tomcat.addServlet(ctx,"com.brandon.SignupServlet",signup);
-            Tomcat.addServlet(ctx, "com.brandon.UserListServlet",users);
-            ctx.addServletMappingDecoded("/signup","com.brandon.SignupServlet");
-            ctx.addServletMappingDecoded("/login","com.brandon.LoginServlet");
-            ctx.addServletMappingDecoded("/users","com.brandon.UserListServlet");
+            Tomcat.addServlet(ctx,"com.brandon.Servlets.LoginServlet",login);
+            Tomcat.addServlet(ctx,"com.brandon.Servlets.SignupServlet",signup);
+            Tomcat.addServlet(ctx, "com.brandon.Servlets.UserListServlet",users);
+            ctx.addServletMappingDecoded("/signup","com.brandon.Servlets.SignupServlet");
+            ctx.addServletMappingDecoded("/login","com.brandon.Servlets.LoginServlet");
+            ctx.addServletMappingDecoded("/users","com.brandon.Servlets.UserListServlet");
 
             System.out.println("Starting tomcat server");
             tomcat.start();

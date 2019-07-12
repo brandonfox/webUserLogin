@@ -1,6 +1,7 @@
-package com.brandon;
+package com.brandon.Servlets;
 
-import com.brandon.Database.DataService;
+import com.brandon.Database.UserService;
+import com.brandon.Database.User;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -12,9 +13,9 @@ import java.util.Collection;
 
 public class UserListServlet extends HttpServlet {
 
-    DataService dataService;
+    UserService dataService;
 
-    public UserListServlet(DataService dataService){
+    public UserListServlet(UserService dataService){
         this.dataService = dataService;
     }
 
@@ -22,7 +23,7 @@ public class UserListServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         RequestDispatcher rd = req.getRequestDispatcher("WEB-INF/user-list.jsp");
-        req.setAttribute("userList",getUsers());
+        req.setAttribute("userlist",getUsers());
         rd.include(req,resp);
 
     }

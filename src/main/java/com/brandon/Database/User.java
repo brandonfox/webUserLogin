@@ -1,4 +1,4 @@
-package com.brandon;
+package com.brandon.Database;
 
 public class User {
 

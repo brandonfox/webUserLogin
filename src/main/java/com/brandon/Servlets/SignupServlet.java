@@ -1,6 +1,7 @@
-package com.brandon;
+package com.brandon.Servlets;
 
 import com.brandon.Database.DataService;
+import com.brandon.Database.UserService;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -11,10 +12,10 @@ import java.io.IOException;
 
 public class SignupServlet extends HttpServlet {
 
-    DataService dataService;
+    UserService data;
 
-    public SignupServlet(DataService dataService){
-        this.dataService = dataService;
+    public SignupServlet(UserService dataService){
+        this.data = dataService;
     }
 
     @Override
@@ -28,6 +29,14 @@ public class SignupServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        super.doPost(req, resp);
+        String username = req.getParameter("username");
+        String password = req.getParameter("password");
+        if(!data.usernameTaken(username)){
+            data.addUser(username,password);
+            resp.sendRedirect("/users");
+        }
+        else {
+            resp.sendRedirect("/signup");
+        }
     }
 }
