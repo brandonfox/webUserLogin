@@ -31,11 +31,14 @@ public class Main {
 
             LoginServlet login = new LoginServlet(dataService);
             SignupServlet signup = new SignupServlet(dataService);
+            UserListServlet users = new UserListServlet(dataService);
 
             Tomcat.addServlet(ctx,"com.brandon.LoginServlet",login);
             Tomcat.addServlet(ctx,"com.brandon.SignupServlet",signup);
+            Tomcat.addServlet(ctx, "com.brandon.UserListServlet",users);
             ctx.addServletMappingDecoded("/signup","com.brandon.SignupServlet");
             ctx.addServletMappingDecoded("/login","com.brandon.LoginServlet");
+            ctx.addServletMappingDecoded("/users","com.brandon.UserListServlet");
 
             System.out.println("Starting tomcat server");
             tomcat.start();
