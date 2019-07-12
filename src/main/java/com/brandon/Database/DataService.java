@@ -20,10 +20,11 @@ public interface DataService {
         return parseResultSetAsString(executeQuery(sql,true)).size() != 0;
     }
 
-    default void initialiseTables(){
+    default void initialiseTables(String databaseName){
         System.out.println("Initialising tables");
-        String sql = "select table_name from information_schema.tables where table_type = 'table'";
+        String sql = "select table_name from information_schema.tables where table_schema = '" + databaseName + "'";
         List<String> existingTables = parseResultSetAsString(executeQuery(sql,true));
+        System.out.println("Tables existing in the database: " + existingTables.toString());
         for (String s:tableMap().keySet()) {
             if(!existingTables.contains(s)){
                 executeSql(tableMap().get(s),true);

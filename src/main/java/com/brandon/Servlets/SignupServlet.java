@@ -33,6 +33,7 @@ public class SignupServlet extends HttpServlet {
         String password = req.getParameter("password");
         if(!data.usernameTaken(username)){
             data.addUser(username,password);
+            req.getSession(true).setAttribute("username",username);
             resp.sendRedirect("/users");
         }
         else {

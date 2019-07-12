@@ -21,12 +21,12 @@ public class Main {
 
         System.out.println("Starting sql connection");
         String databaseName = "ooc-a4";
-        String connectionString = "jdbc:mysql://localhost:3306/" + databaseName; //Database connection ip/string
+        String connectionString = "jdbc:mysql://localhost:3306"; //Database connection ip/string
         Properties connProps = new Properties();
         connProps.put("user","root");
-        connProps.put("password","password");
+        connProps.put("password","Yikey123");
 
-        UserService dataService = new UserService(connectionString,connProps);
+        UserService dataService = new UserService(connectionString,connProps, databaseName);
 
         Context ctx;
         try{
@@ -40,6 +40,7 @@ public class Main {
             Tomcat.addServlet(ctx,"com.brandon.Servlets.LoginServlet",login);
             Tomcat.addServlet(ctx,"com.brandon.Servlets.SignupServlet",signup);
             Tomcat.addServlet(ctx, "com.brandon.Servlets.UserListServlet",users);
+
             ctx.addServletMappingDecoded("/signup","com.brandon.Servlets.SignupServlet");
             ctx.addServletMappingDecoded("/login","com.brandon.Servlets.LoginServlet");
             ctx.addServletMappingDecoded("/users","com.brandon.Servlets.UserListServlet");

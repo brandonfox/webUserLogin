@@ -18,12 +18,12 @@ public class UserService implements DataService {
         return dbconn;
     }
 
-    public UserService(String connectionString, Properties connectionProperties){
+    public UserService(String connectionString, Properties connectionProperties, String databaseName){
         try {
-            dbconn = DriverManager.getConnection(connectionString, connectionProperties);
+            dbconn = DriverManager.getConnection(connectionString + "/" + databaseName, connectionProperties);
             tableMap = new HashMap<>();
             tableMap.put("users","create table users(username varchar(255) primary key not null, password varchar(72) not null, salt varchar(16) not null)");
-            initialiseTables();
+            initialiseTables(databaseName);
         }
         catch(SQLException ex){
             ex.printStackTrace();

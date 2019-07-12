@@ -1,5 +1,6 @@
 package com.brandon.Servlets;
 
+import com.brandon.Database.SecurityService;
 import com.brandon.Database.UserService;
 import com.brandon.Database.User;
 
@@ -21,11 +22,12 @@ public class UserListServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
-        RequestDispatcher rd = req.getRequestDispatcher("WEB-INF/user-list.jsp");
-        req.setAttribute("userlist",getUsers());
-        rd.include(req,resp);
-
+        if(!SecurityService.SessionAuthorized(req)) resp.sendRedirect("/login");
+        else {
+            RequestDispatcher rd = req.getRequestDispatcher("WEB-INF/user-list.jsp");
+            req.setAttribute("userlist", getUsers());
+            rd.include(req, resp);
+        }
     }
 
     private Collection<User> getUsers(){

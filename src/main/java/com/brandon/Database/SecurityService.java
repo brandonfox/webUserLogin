@@ -1,9 +1,8 @@
 package com.brandon.Database;
 
-import com.brandon.Database.SaltPasswordPair;
-
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
+import javax.servlet.http.HttpServletRequest;
 import java.security.SecureRandom;
 import java.security.spec.KeySpec;
 
@@ -27,5 +26,11 @@ public class SecurityService {
             System.exit(-1);
             return null;
         }
+    }
+    public static boolean SessionAuthorized(HttpServletRequest req){
+        if(req.getSession().getAttribute("username") != null)
+            return true;
+        else
+            return false;
     }
 }
