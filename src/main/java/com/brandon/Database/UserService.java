@@ -22,7 +22,7 @@ public class UserService implements DataService {
         try {
             dbconn = DriverManager.getConnection(connectionString + "/" + databaseName, connectionProperties);
             tableMap = new HashMap<>();
-            tableMap.put("users","create table users(username varchar(255) primary key not null, password varchar(72) not null, salt varchar(16) not null)");
+            tableMap.put("users","create table users(username varchar(255) primary key not null, password varchar(72) not null)");
             initialiseTables(databaseName);
         }
         catch(SQLException ex){
@@ -36,6 +36,14 @@ public class UserService implements DataService {
         return getUsers(sql);
     }
 
+    public User getUser(String username){
+        String sql = "select * from users where username = ?";
+        List<User> userList = parseResultSetAsUser(executeQuery(sql,username));
+        if(userList.size() > 0)
+            return userList.get(0);
+        return null;
+    }
+
     private List<User> getUsers(String sql, String... args){
         return parseResultSetAsUser(executeQuery(sql,args));
     }
@@ -45,7 +53,10 @@ public class UserService implements DataService {
             List<User> users = new ArrayList<>();
             while (rs.next()) {
                 String username = rs.getString(1);
-                users.add(new User(username));
+                User user = new User(username);
+                if(hasColumn(rs,"password"))
+                    user.setPassword(rs.getString("password"));
+                users.add(user);
             }
             return users;
         }
@@ -61,9 +72,8 @@ public class UserService implements DataService {
     }
 
     public void addUser(String username, String password){
-        String sql = "insert into users(username,password,salt) values (?,?,?)";
-        SaltPasswordPair saltPassPair = SecurityService.encryptPassword(password);
-        executeSql(sql, username, new String(saltPassPair.getPassword()), new String(saltPassPair.getSalt()));
+        String sql = "insert into users(username,password) values (?,?)";
+        executeSql(sql, username, SecurityService.encryptPassword(password));
     }
 
 //    public boolean isValidCredentials(String username, String password){

@@ -20,7 +20,7 @@ public class Main {
         tomcat.setPort(80);
 
         System.out.println("Starting sql connection");
-        String databaseName = "ooc-a4";
+        String databaseName = "ooc_a4";
         String connectionString = "jdbc:mysql://localhost:3306"; //Database connection ip/string
         Properties connProps = new Properties();
         connProps.put("user","root");

@@ -1,6 +1,7 @@
 package com.brandon.Servlets;
 
 import com.brandon.Database.DataService;
+import com.brandon.Database.SecurityService;
 import com.brandon.Database.UserService;
 
 import javax.servlet.RequestDispatcher;
@@ -31,6 +32,12 @@ public class LoginServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String username = req.getParameter("username");
         String password = req.getParameter("password");
-
+        if(SecurityService.AuthenticateUser(data,username,password)){
+            req.getSession(true).setAttribute("username",username);
+            resp.sendRedirect("/users");
+        }
+        else{
+            resp.sendRedirect("/login");
+        }
     }
 }

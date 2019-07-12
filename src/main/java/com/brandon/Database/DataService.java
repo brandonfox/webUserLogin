@@ -1,5 +1,6 @@
 package com.brandon.Database;
 
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -44,6 +45,15 @@ public interface DataService {
             ex.printStackTrace();
             return null;
         }
+    }
+    
+    default boolean hasColumn(ResultSet rs, String columnName) throws SQLException{
+        ResultSetMetaData rsmd = rs.getMetaData();
+        for(int x = 1; x <= rsmd.getColumnCount(); x++){
+            if(rsmd.getColumnName(x).equals(columnName))
+                return true;
+        }
+        return false;
     }
 
 
