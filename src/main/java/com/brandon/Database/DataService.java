@@ -21,16 +21,24 @@ public interface DataService {
         return parseResultSetAsString(executeQuery(sql,true)).size() != 0;
     }
 
-    default void initialiseTables(String databaseName){
+    /**
+     * Intialise sql tables if they dont exist
+     * @param databaseName the name of the database
+     * @return Whether the tables had to be created or not
+     */
+    default boolean initialiseTables(String databaseName){
+        boolean tablesEdited = false;
         System.out.println("Initialising tables");
         String sql = "select table_name from information_schema.tables where table_schema = '" + databaseName + "'";
         List<String> existingTables = parseResultSetAsString(executeQuery(sql,true));
         System.out.println("Tables existing in the database: " + existingTables.toString());
         for (String s:tableMap().keySet()) {
             if(!existingTables.contains(s)){
+                tablesEdited = true;
                 executeSql(tableMap().get(s),true);
             }
         }
+        return tablesEdited;
     }
 
     default List<String> parseResultSetAsString(ResultSet rs){

@@ -1,12 +1,12 @@
 package com.brandon;
 
 import com.brandon.Database.UserService;
-import com.brandon.Servlets.LoginServlet;
-import com.brandon.Servlets.SignupServlet;
-import com.brandon.Servlets.UserListServlet;
+import com.brandon.Router.Router;
+import com.brandon.Servlets.*;
 import org.apache.catalina.Context;
 import org.apache.catalina.LifecycleException;
 import org.apache.catalina.startup.Tomcat;
+import org.apache.tomcat.util.descriptor.web.ErrorPage;
 
 import java.io.File;
 import java.util.Properties;
@@ -17,7 +17,7 @@ public class Main {
         File tempDir = new File("src/main/webapp/");
         tempDir.mkdirs();
         Tomcat tomcat = new Tomcat();
-        tomcat.setPort(80);
+        tomcat.setPort(8080);
 
         System.out.println("Starting sql connection");
         String databaseName = "ooc_a4";
@@ -30,22 +30,31 @@ public class Main {
 
         Context ctx;
         try{
-            System.out.println("Starting webapp");
             ctx = tomcat.addWebapp("",tempDir.getAbsolutePath());
 
             LoginServlet login = new LoginServlet(dataService);
             SignupServlet signup = new SignupServlet(dataService);
             UserListServlet users = new UserListServlet(dataService);
+            LogoutServlet logout = new LogoutServlet();
+            UserRemoveServlet removeServlet = new UserRemoveServlet(dataService);
+            UserPageServlet userPageServlet = new UserPageServlet(dataService);
 
-            Tomcat.addServlet(ctx,"com.brandon.Servlets.LoginServlet",login);
-            Tomcat.addServlet(ctx,"com.brandon.Servlets.SignupServlet",signup);
-            Tomcat.addServlet(ctx, "com.brandon.Servlets.UserListServlet",users);
+            Router router = new Router();
+            router.addRoutable(login);
+            router.addRoutable(signup);
+            router.addRoutable(users);
+            router.addRoutable(logout);
+            router.addRoutable(removeServlet);
+            router.addRoutable(userPageServlet);
 
-            ctx.addServletMappingDecoded("/signup","com.brandon.Servlets.SignupServlet");
-            ctx.addServletMappingDecoded("/login","com.brandon.Servlets.LoginServlet");
-            ctx.addServletMappingDecoded("/users","com.brandon.Servlets.UserListServlet");
+            router.init(ctx);
 
-            System.out.println("Starting tomcat server");
+            ErrorPage defaultRedirect = new ErrorPage();
+            defaultRedirect.setErrorCode(404);
+            defaultRedirect.setLocation("/users");
+
+            ctx.addErrorPage(defaultRedirect);
+
             tomcat.start();
             tomcat.getServer().await();
         }

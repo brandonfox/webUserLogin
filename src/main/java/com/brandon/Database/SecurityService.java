@@ -23,6 +23,13 @@ public class SecurityService {
     }
 
     public static boolean SessionAuthorized(HttpServletRequest req){
-        return req.getSession().getAttribute("username") != null;
+        return getUsername(req) != null;
+    }
+
+    public static String getUsername(HttpServletRequest req){
+        Object username = req.getSession().getAttribute("username");
+        if(username != null)
+            return username.toString();
+        return null;
     }
 }

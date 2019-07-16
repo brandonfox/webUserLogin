@@ -66,7 +66,6 @@
 <body>
 <div class="topBar">
     <div class="topBar left" id="homeButton"><a href="/">Home</a></div>
-    <div class="topBar right" id="logoutButton"><a href="logout">Logout</a></div>
 </div>
 <div class="loginTable">
     <form action="/login" method="post">

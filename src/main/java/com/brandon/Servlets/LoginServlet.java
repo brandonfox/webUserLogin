@@ -3,6 +3,7 @@ package com.brandon.Servlets;
 import com.brandon.Database.DataService;
 import com.brandon.Database.SecurityService;
 import com.brandon.Database.UserService;
+import com.brandon.Router.Routable;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -11,9 +12,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-public class LoginServlet extends HttpServlet {
+public class LoginServlet extends HttpServlet implements Routable {
 
     UserService data;
+
+    @Override
+    public String getMapping() {
+        return "/login";
+    }
 
     public LoginServlet(UserService dataService){
         data = dataService;
