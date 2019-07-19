@@ -17,7 +17,7 @@ public class LogoutServlet extends HttpServlet implements Routable {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.removeAttribute("username");
+        req.getSession().removeAttribute("username");
         resp.sendRedirect("/login");
     }
 }
